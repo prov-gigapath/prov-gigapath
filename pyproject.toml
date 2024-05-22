@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gigapath"
+version = "0.1.0"
+description = "Prov-GigaPath: A whole-slide foundation model for digital pathology from real-world data"
+readme = "README.md"
+requires-python = ">=3.9"
+[project.urls]
+"Homepage" = "https://github.com/prov-gigapath/prov-gigapath"
+"Bug Tracker" = "https://github.com/prov-gigapath/prov-gigapath/issues"
+
+[tool.setuptools.packages.find]
+include = ["gigapath"]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*", "outputs*"]
+
+[tool.wheel]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*", "outputs*"]
+
+[tool.black]
+line-length = 200

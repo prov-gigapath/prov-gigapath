@@ -1,0 +1,10 @@
+name: mutation_5_gene
+setting: multi_label
+label_dict:
+  EGFR: 0
+  FAT1: 1
+  KRAS: 2
+  LRP1B: 3
+  TP53: 4
+max_tiles: 1000000
+shuffle_tiles: true

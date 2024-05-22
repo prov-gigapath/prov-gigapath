@@ -1,0 +1,12 @@
+name: panda
+setting: multi_class
+label_dict:
+  0: 0
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+max_tiles: 1000000
+shuffle_tiles: true
+add_metrics: ['qwk']
