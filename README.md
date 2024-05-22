@@ -133,9 +133,9 @@ To run the fine-tuning experiment, execute the following script:
 bash scripts/run_panda.sh data/GigaPath_PANDA_embeddings/h5_files
 ```
 
-## Data Download
+## Sample Data Download
 
-The de-identified subset of the Prov-Path data can be accessed from these links [[1](https://zenodo.org/records/10909616), [2](https://zenodo.org/records/10909922)].
+A sample de-identified subset of the Prov-Path data can be accessed from these links [[1](https://zenodo.org/records/10909616), [2](https://zenodo.org/records/10909922)].
 
 ## Model Uses
 
