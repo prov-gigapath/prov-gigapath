@@ -160,5 +160,11 @@ We would like to express our gratitude to the authors and developers of the exce
 If you find Prov-GigaPath useful for your your research and applications, please cite using this BibTeX:
 
 ```bibtex
-To be updated
+@article{xu2024gigapath,
+  title={A whole-slide foundation model for digital pathology from real-world data},
+  author={Xu, Hanwen and Usuyama, Naoto and Bagga, Jaspreet and Zhang, Sheng and Rao, Rajesh and Naumann, Tristan and Wong, Cliff and Gero, Zelalem and González, Javier and Gu, Yu and Xu, Yanbo and Wei, Mu and Wang, Wenhui and Ma, Shuming and Wei, Furu and Yang, Jianwei and Li, Chunyuan and Gao, Jianfeng and Rosemon, Jaylen and Bower, Tucker and Lee, Soohee and Weerasinghe, Roshanthi and Wright, Bill J. and Robicsek, Ari and Piening, Brian and Bifulco, Carlo and Wang, Sheng and Poon, Hoifung},
+  journal={Nature},
+  year={2024},
+  publisher={Nature Publishing Group UK London}
+}
 ```
