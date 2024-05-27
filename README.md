@@ -86,6 +86,8 @@ with torch.no_grad():
     output = tile_encoder(sample_input).squeeze()
 ```
 
+** 
+
 ### Inference with the slide encoder
 
 To inference with our slide encoder, we need both the tile embeddings and their coordinates as input. First, let's load the GigaPath slide encoder:
@@ -103,6 +105,10 @@ slide_encoder.eval()
 with torch.no_grad():
     output = slide_encoder(tile_embed, coordinates).squeeze()
 ```
+
+
+**Note** Older versions of timm have compatibility issues. Please ensure that you use a newer version by running the following command: pip install timm>=1.0.3.
+
 
 ## Fine-tuning
 
