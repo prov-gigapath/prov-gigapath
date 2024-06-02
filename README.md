@@ -8,6 +8,14 @@ Hanwen Xu*, Naoto Usuyama*, Jaspreet Bagga, Sheng Zhang, Rajesh Rao, Tristan Nau
 
 [![License](https://img.shields.io/badge/Code%20License-Prov%20GigaPath-red)]()
 
+## 📢 News
+
+### June 2024 
+- **New Demo Notebook Available**: We have prepared a new notebook for the walkthrough of the Prov-GigaPath model. This notebook provides a detailed demonstration of how to run the pretrained model. You can check it out [here](https://github.com/prov-gigapath/prov-gigapath/blob/main/demo/run_gigapath.ipynb).
+
+### May 2024
+- **Initial Model and Code Release**: We are excited to announce that the initial release of the Prov-GigaPath model and its code is now available. The [GigaPath paper](https://aka.ms/gigapath) has been published in *Nature*.
+
 ## Model Overview
 
 <p align="center">
