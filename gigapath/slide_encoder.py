@@ -222,7 +222,7 @@ class LongNetViT(nn.Module):
         return outcomes
 
 
-def create_model(pretrained: str, model_arch: str, in_chans: int, local_dir: str = os.path.join(os.path.expanduser("~")), **kwargs):
+def create_model(pretrained: str, model_arch: str, in_chans: int, local_dir: str = os.path.join(os.path.expanduser("~"), ".cache/"), **kwargs):
     model = timm.create_model(model_arch, pretrained=False, in_chans=in_chans, **kwargs)
 
     if pretrained.startswith("hf_hub:"):
