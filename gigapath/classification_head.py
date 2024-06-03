@@ -58,7 +58,7 @@ class ClassificationHead(nn.Module):
         # whether to freeze the pretrained model
         if freeze:
             print("Freezing Pretrained GigaPath model")
-            for name, param in self.longnet.named_parameters():
+            for name, param in self.slide_encoder.named_parameters():
                 param.requires_grad = False
             print("Done")
         # setup the classifier
