@@ -71,6 +71,7 @@ from PIL import Image
 from torchvision import transforms
 import torch
 
+# Older versions of timm have compatibility issues. Please ensure that you use a newer version by running the following command: pip install timm>=1.0.3.
 tile_encoder = timm.create_model("hf_hub:prov-gigapath/prov-gigapath", pretrained=True)
 
 transform = transforms.Compose(
