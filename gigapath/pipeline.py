@@ -62,7 +62,10 @@ def load_tile_encoder_transforms() -> transforms.Compose:
 
 
 def load_tile_slide_encoder(local_tile_encoder_path: str = "", local_slide_encoder_path: str = "") -> Tuple[torch.nn.Module, torch.nn.Module]:
-    """Load the GigaPath tile and slide encoder models"""
+    """Load the GigaPath tile and slide encoder models.
+    Note: Older versions of timm have compatibility issues. 
+    Please ensure that you use a newer version by running the following command: pip install timm>=1.0.3.
+    """
     if local_tile_encoder_path:
         tile_encoder = timm.create_model("hf_hub:prov-gigapath/prov-gigapath", pretrained=False, checkpoint_path=local_tile_encoder_path)
     else:
