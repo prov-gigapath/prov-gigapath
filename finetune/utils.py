@@ -317,8 +317,8 @@ def get_loss_function(task_config: dict):
 def get_records_array(record_len: int, n_classes) -> dict:
     '''Get the records array based on the task configuration.'''
     record = {
-        'prob': np.zeros((record_len, n_classes)) if n_classes > 2 else np.zeros(record_len, dtype=np.float32),
-        'label': np.zeros((record_len, n_classes)) if n_classes > 2 else np.zeros(record_len, dtype=np.float32),
+        'prob': np.zeros((record_len, n_classes), dtype=np.float32),
+        'label': np.zeros((record_len, n_classes), dtype=np.float32),
         'loss': 0.0,
     }
     return record
