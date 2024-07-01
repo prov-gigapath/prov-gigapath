@@ -11,10 +11,10 @@ Hanwen Xu*, Naoto Usuyama*, Jaspreet Bagga, Sheng Zhang, Rajesh Rao, Tristan Nau
 ## 📢 News
 
 ### July 2024
-- **WSI Preprocessing/Tiling**: We are pleased to share new scripts and accompanying documentation for preprocessing whole-slide images. This guide provides a walkthrough on how to preprocess whole-slide images for the Prov-GigaPath model. Check out the [documentation](https://github.com/prov-gigapath/prov-gigapath/blob/main/gigapath/preprocessing/preprocessing.md) to get started.
+- **WSI Preprocessing/Tiling**: We are pleased to share new preprocessing guide for Prov-GigaPath. This guide provides a walkthrough on setting up the environment and preprocessing WSI files for Prov-GigaPath. Check out the [guide](https://github.com/prov-gigapath/prov-gigapath/blob/main/gigapath/preprocessing/preprocessing.md) to get started.
 
 ### June 2024
-- **New Demo Notebook Available**: We have prepared a new notebook for the walkthrough of the Prov-GigaPath model. This notebook provides a detailed demonstration of how to run the pretrained model. You can check it out [here](https://github.com/prov-gigapath/prov-gigapath/blob/main/demo/run_gigapath.ipynb).
+- **New Demo Notebook Available**: We have prepared a new notebook for the walkthrough of the Prov-GigaPath model. This notebook provides a detailed demonstration of how to load and run the pretrained model. You can check it out [here](https://github.com/prov-gigapath/prov-gigapath/blob/main/demo/run_gigapath.ipynb).
 
 ### May 2024
 - **Initial Model and Code Release**: We are excited to announce that the initial release of the Prov-GigaPath model and its code is now available. The [GigaPath paper](https://aka.ms/gigapath) has been published in *Nature*.
