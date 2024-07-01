@@ -17,7 +17,7 @@ References:
 - https://github.com/openslide/openslide/issues/291
 - https://histolab.readthedocs.io/en/latest/installation.html
 
-You can try this snippet to fix the issue
+You can try this snippet to install the pixman 0.40.0:
 
 ```bash
 mkdir pixman
