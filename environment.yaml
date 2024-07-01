@@ -38,3 +38,6 @@ dependencies:
       - ninja==1.11.1.1
       - transformers==4.36.2
       - flash-attn==2.5.8
+      - monai
+      - openslide-python
+      - scikit-image
