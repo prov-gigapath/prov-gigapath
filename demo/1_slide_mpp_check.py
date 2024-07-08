@@ -2,7 +2,8 @@ import huggingface_hub
 import os
 from gigapath.preprocessing.data.slide_utils import find_level_for_target_mpp
 
-assert "HF_TOKEN" in os.environ, "Please set the HF_TOKEN environment variable to your Hugging Face API token"
+homedir_path = os.path.expanduser("~")
+assert ("HF_TOKEN" in os.environ) or os.path.exists(f"{homedir_path}/.cache/huggingface/token"), "Please set the HF_TOKEN environment variable to your Hugging Face API token or make sure the token is cached in ~/.cache/huggingface/token"
 
 local_dir = os.path.join(os.path.expanduser("~"), ".cache/")
 huggingface_hub.hf_hub_download("prov-gigapath/prov-gigapath", filename="sample_data/PROV-000-000001.ndpi", local_dir=local_dir, force_download=True)

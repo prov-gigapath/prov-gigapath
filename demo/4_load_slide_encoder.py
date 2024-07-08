@@ -1,7 +1,8 @@
 import os
 import gigapath.slide_encoder as slide_encoder
 
-assert "HF_TOKEN" in os.environ, "Please set the HF_TOKEN environment variable to your Hugging Face API token"
+homedir_path = os.path.expanduser("~")
+assert ("HF_TOKEN" in os.environ) or os.path.exists(f"{homedir_path}/.cache/huggingface/token"), "Please set the HF_TOKEN environment variable to your Hugging Face API token or make sure the token is cached in ~/.cache/huggingface/token"
 
 # load from HuggingFace
 # NOTE: CLS token is not trained during the pretraining
