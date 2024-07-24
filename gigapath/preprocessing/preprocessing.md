@@ -31,7 +31,7 @@ sudo make install
 export LD_PRELOAD=/usr/local/lib/libpixman-1.so.0.40.0:$LD_PRELOAD
 ```
 
-## Running the Demo
+## Tiling
 
 Once the requirements are installed, you can run the demo script to check if everything works:
 
