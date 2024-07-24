@@ -12,6 +12,7 @@ dependencies:
   - torchvision==0.15.0
   - torchaudio==2.0.0
   - pytorch-cuda=11.8
+  - openslide=3.4.1
   - pip:
       - omegaconf
       - torchmetrics==0.10.3
