@@ -13,7 +13,7 @@ requires-python = ">=3.9"
 "Bug Tracker" = "https://github.com/prov-gigapath/prov-gigapath/issues"
 
 [tool.setuptools.packages.find]
-include = ["gigapath"]
+include = ["gigapath", "gigapath.*"]
 exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*", "outputs*"]
 
 [tool.wheel]
