@@ -10,6 +10,11 @@ Hanwen Xu*, Naoto Usuyama*, Jaspreet Bagga, Sheng Zhang, Rajesh Rao, Tristan Nau
 
 ## 📢 News
 
+### September 2024
+- **Embeddings**: We are pleased to share a new notebook, showcasing embedding visualization for Prov-GigaPath. Check out the [notebook](https://github.com/prov-gigapath/prov-gigapath/blob/main/demo/gigapath_pca_visualization_timm.ipynb) to get started.
+
+![GigaPath Embedding Visualization](https://github.com/prov-gigapath/prov-gigapath/blob/main/images/GigaPath_embedding_visualization.png)
+
 ### July 2024
 - **WSI Preprocessing/Tiling**: We are pleased to share new preprocessing guide for Prov-GigaPath. This guide provides a walkthrough on setting up the environment and preprocessing WSI files for Prov-GigaPath. Check out the [guide](https://github.com/prov-gigapath/prov-gigapath/blob/main/gigapath/preprocessing/preprocessing.md) to get started.
 
