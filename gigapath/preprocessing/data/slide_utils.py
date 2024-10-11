@@ -56,5 +56,5 @@ def find_level_for_target_mpp(slide_path, target_mpp):
                 print("xmpp:",level_mpp_x,"ympp:",level_mpp_y)
                 return level
 
-        print(f"No level corresponds to approximately {target_mpp} MPP.")
+    print(f"No level corresponds to approximately {target_mpp} MPP.")
     return None
