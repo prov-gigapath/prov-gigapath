@@ -79,24 +79,24 @@ class LongNetViT(nn.Module):
         The drop path rate used in the model.
     """
 
-    def __init__(self, 
-                in_chans=1536, 
-                embed_dim=256, 
-                depth=12, 
-                slide_ngrids=1000, 
+    def __init__(self,
+                in_chans=1536,
+                embed_dim=256,
+                depth=12,
+                slide_ngrids=1000,
                 tile_size=256,
                 max_wsi_size=262144,
-                norm_layer=nn.LayerNorm, 
-                global_pool=False, 
-                dropout=0.25, 
-                drop_path_rate=0.1, 
+                norm_layer=nn.LayerNorm,
+                global_pool=False,
+                dropout=0.25,
+                drop_path_rate=0.1,
                 **kwargs):
         super().__init__()
 
         # --------------------------------------------------------------------------
         # MAE encoder specifics
         self.patch_embed = PatchEmbed(in_chans, embed_dim)
-        
+
         self.tile_size = tile_size
         self.slide_ngrids = slide_ngrids
         num_patches = slide_ngrids**2
@@ -106,7 +106,7 @@ class LongNetViT(nn.Module):
         self.encoder_name = "LongNet_{}_layers_{}_dim".format(depth, embed_dim)
         if kwargs.get("mlp_ratio", 4.0) != 4.0:
             self.encoder_name += "_mlp{}".format(kwargs.get("mlp_ratio"))
-        
+
         # get optimal segment length
         segment_length = self.get_optimal_segment_length(max_wsi_size, tile_size)
         self.encoder = make_longnet_from_name(self.encoder_name, drop_path_rate=drop_path_rate, dropout=dropout, segment_length=segment_length)
@@ -137,7 +137,7 @@ class LongNetViT(nn.Module):
     def get_optimal_segment_length(self, max_wsi_size: int=262144, tile_size: int=256) -> str:
         '''
         Get the optimal segment length based on the maximum image size and tile size.
-        
+
         Arguments:
         ----------
         max_wsi_size: int
@@ -149,8 +149,9 @@ class LongNetViT(nn.Module):
         # calculate the segment length
         segment_length = np.linspace(np.log2(1024), int(np.log2(max_seq_len)), 5)
         segment_length = np.power(2, segment_length).astype(int)
-        # convert to str format
-        segment_length = str(list(segment_length))
+        # convert to str format (use Python ints so the string is safely eval-able
+        # on numpy>=2.0, which otherwise renders scalars as "np.int64(...)")
+        segment_length = str([int(x) for x in segment_length])
         return segment_length
 
     def _init_weights(self, m):
@@ -267,4 +268,12 @@ def gigapath_slide_enc24l1024d(**kwargs):
 @register_model
 def gigapath_slide_enc12l1536d(**kwargs):
     model = LongNetViT(embed_dim=1536, depth=12, mlp_ratio=4, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
+    return model
+
+
+@register_model
+def gigapath_slide_enc12l384d(**kwargs):
+    # GigaPath-Flash slide encoder: LongNet 12 layers, 384-dim.
+    # Pairs with a 384-dim tile encoder (e.g. DINOv2-small), so in_chans=384.
+    model = LongNetViT(embed_dim=384, depth=12, mlp_ratio=4, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
