@@ -41,12 +41,12 @@ Hanwen Xu*, Naoto Usuyama*, Jaspreet Bagga, Sheng Zhang, Rajesh Rao, Tristan Nau
 
 ## Model Family
 
-| Model              | Description                               | Weights                                                          |  Code                                                  | Paper                                                       | License    |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **GigaPath**       | Whole-slide foundation model              | [link](https://huggingface.co/prov-gigapath/prov-gigapath)  | [link](https://github.com/prov-gigapath/prov-gigapath) | [Nature (2024)](https://doi.org/10.1038/s41586-024-07441-w) | Apache-2.0 |
-| **GigaPath-Flash** | Efficient whole-slide foundation model    | [link](https://huggingface.co/prov-gigapath/prov-gigapath-flash)    | [link](https://github.com/prov-gigapath/prov-gigapath) | [arXiv (2026)](https://arxiv.org/abs/2607.18218)            | Apache-2.0 |
-| **GigaTIME**       | Spatial proteomics prediction from H&E           | [link](https://huggingface.co/prov-gigatime/GigaTIME)       | [link](https://github.com/prov-gigatime/GigaTIME)      | [Cell (2026)](https://doi.org/10.1016/j.cell.2025.11.016)   | Apache-2.0 |
-| **GigaTIME-Flash** | Efficient spatial proteomics prediction from H&E | [link](https://huggingface.co/prov-gigatime/gigatime-flash) | [link](https://github.com/prov-gigatime/GigaTIME)      | [arXiv (2026)](https://arxiv.org/abs/2607.18218)            | Apache-2.0 |
+| Model                                                                          | Description                                      |                            Paper                            |   License  |
+| :----------------------------------------------------------------------------- | :----------------------------------------------- | :---------------------------------------------------------: | :--------: |
+| [**GigaPath**](https://huggingface.co/prov-gigapath/prov-gigapath)             | Whole-slide foundation model                     | [Nature (2024)](https://doi.org/10.1038/s41586-024-07441-w) | Apache-2.0 |
+| [**GigaPath-Flash**](https://huggingface.co/prov-gigapath/prov-gigapath-flash) | Efficient whole-slide foundation model           |       [arXiv (2026)](https://arxiv.org/abs/2607.18218)      | Apache-2.0 |
+| [**GigaTIME**](https://huggingface.co/prov-gigatime/GigaTIME)                  | Spatial proteomics prediction from H&E           |  [Cell (2026)](https://doi.org/10.1016/j.cell.2025.11.016)  | Apache-2.0 |
+| [**GigaTIME-Flash**](https://huggingface.co/prov-gigatime/gigatime-flash)      | Efficient spatial proteomics prediction from H&E |       [arXiv (2026)](https://arxiv.org/abs/2607.18218)      | Apache-2.0 |
 
 ## Install
 
