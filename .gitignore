@@ -9,6 +9,7 @@ __pycache__/
 test/
 outputs/
 cache/
+sample_data/
 
 # Distribution / packaging
 .Python
