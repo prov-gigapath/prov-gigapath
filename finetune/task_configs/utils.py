@@ -4,7 +4,7 @@ import yaml
 def load_task_config(config_path: str) -> dict:
     '''Load the yaml config file that specifies the task setup.'''
     with open(config_path, 'r') as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
+        config = yaml.safe_load(f)
     return config
 
 
