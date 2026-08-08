@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 from einops import rearrange
 
-from .multihead_attention import MultiheadAttention
+from .custom_multihead_attention import MultiheadAttention
 from .utils import padding_to_multiple_of, all_gather_func, get_data_parallel_rank, get_data_parallel_world_size
 
 
@@ -43,7 +43,7 @@ class DilatedAttention(MultiheadAttention):
 
         lse = rearrange(lse, 'b (r h) l -> b l h r', r=ratio)
         lse = torch.diag_embed(lse, offset=0, dim1=3, dim2=4)
-        lse = lse.masked_fill_(lse==0, -1e8)
+        lse = lse.masked_fill_(lse == 0, torch.finfo(lse.dtype).min)
         lse = rearrange(lse, 'b l h r1 r2 -> b (r2 h) (l r1) 1', r1=ratio, r2=ratio)
 
         if head_padding > 0:

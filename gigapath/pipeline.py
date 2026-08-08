@@ -8,6 +8,7 @@ import shutil
 import numpy as np
 import pandas as pd
 import gigapath.slide_encoder as slide_encoder
+from huggingface_hub import hf_hub_download
 
 from tqdm import tqdm
 from PIL import Image
@@ -123,9 +124,20 @@ def load_tile_slide_encoder(local_tile_encoder_path: str='',
     Please ensure that you use a newer version by running the following command: pip install timm>=1.0.3.
     """
     if local_tile_encoder_path:
-        tile_encoder = timm.create_model("hf_hub:prov-gigapath/prov-gigapath", pretrained=False, checkpoint_path=local_tile_encoder_path)
+        checkpoint_path = local_tile_encoder_path
     else:
-        tile_encoder = timm.create_model("hf_hub:prov-gigapath/prov-gigapath", pretrained=True)
+        checkpoint_path = hf_hub_download(
+            repo_id="prov-gigapath/prov-gigapath",
+            filename="pytorch_model.bin",
+        )
+
+    tile_encoder = timm.create_model(
+        "hf_hub:prov-gigapath/prov-gigapath",
+        pretrained=False,
+    )
+
+    state_dict = torch.load(checkpoint_path, map_location="cpu")
+    tile_encoder.load_state_dict(state_dict, strict=True)
     print("Tile encoder param #", sum(p.numel() for p in tile_encoder.parameters()))
 
     if local_slide_encoder_path:

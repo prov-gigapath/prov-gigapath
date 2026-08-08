@@ -14,9 +14,7 @@ except ModuleNotFoundError:
 
 from .multiway_network import MultiwayWrapper
 from .xpos_relative_position import XPOS
-from .flash_attention import flash_attn_func, flash_attn_varlen_func
-
-
+from .custom_flash_attention import flash_attn_func, flash_attn_varlen_func
 class MultiheadAttention(nn.Module):
     def __init__(
         self,
@@ -76,48 +74,94 @@ class MultiheadAttention(nn.Module):
                 attn_weights += attn_mask
 
             if key_padding_mask is not None:
-                attn_weights = rearrange(attn_weights, '(b h) t s -> b h t s', h=self.num_heads)
+                if key_padding_mask.dim() == 4 and key_padding_mask.shape[-1] == 1:
+                    key_padding_mask = key_padding_mask.squeeze(-1)
+                if key_padding_mask.dim() == 3 and key_padding_mask.shape[-1] == 1:
+                    key_padding_mask = key_padding_mask.squeeze(-1)
+
+                if key_padding_mask.dim() == 2:
+                    pass
+                elif key_padding_mask.dim() == 3:
+                    if key_padding_mask.shape[1] == self.num_heads:
+                        key_padding_mask = rearrange(key_padding_mask, 'b h s -> (b h) s')
+                    elif key_padding_mask.shape[2] == self.num_heads:
+                        key_padding_mask = rearrange(key_padding_mask, 'b s h -> (b h) s')
+                    else:
+                        raise RuntimeError(f"Unexpected 3D key_padding_mask shape: {key_padding_mask.shape}")
+                else:
+                    raise RuntimeError(f"Unexpected key_padding_mask shape: {key_padding_mask.shape}")
+
                 attn_weights = attn_weights.masked_fill(
-                    key_padding_mask.unsqueeze(1).unsqueeze(2).to(torch.bool),
+                    key_padding_mask[:, None, :].to(torch.bool),
                     float("-inf"),
                 )
-                attn_weights = rearrange(attn_weights, 'b h t s -> (b h) t s')
 
             if rel_pos is not None:
                 rel_pos = rel_pos.view(attn_weights.size())
                 attn_weights = attn_weights + rel_pos
 
-            attn_weights = F.softmax(attn_weights, dim=-1, dtype=torch.float32).type_as(
-                attn_weights
-            )
+            attn_weights = F.softmax(attn_weights, dim=-1, dtype=torch.float32).type_as(attn_weights)
             attn_probs = self.dropout_module(attn_weights)
 
             attn = torch.bmm(attn_probs, v)
             attn = rearrange(attn, '(b h) l d -> b l (h d)', h=self.num_heads)
         else:
-            assert flash_attn_func is not None
-            assert flash_attn_varlen_func is not None
             assert rel_pos is None
-            q = rearrange(q, '(b h) l d -> b l h d', h=self.num_heads)
-            k = rearrange(k, '(b h) l d -> b l h d', h=self.num_heads)
-            v = rearrange(v, '(b h) l d -> b l h d', h=self.num_heads)
-            # added by Hanwen
-            
-            if key_padding_mask is not None:
-                # if use key_padding_mask, then use the flash attention function supporting variable length
-                key_padding_mask = rearrange(key_padding_mask, '(b h) l d -> b l h d', h=self.num_heads)
-                # h head is redundant, so pick the first one
-                key_padding_mask = key_padding_mask[:, :, 0, 0]
-                # assert 1 means padding in key padding mask
-                assert key_padding_mask[0, 0] == 0
-                # convert the key_padding_mask to be compatible with flash attention
-                key_padding_mask = 1 - key_padding_mask
-                attn, lse = flash_attn_varlen_func(q, k, v, self.dropout, None, key_padding_mask, None, is_causal)
-            else:
-                attn, lse = flash_attn_func(q, k, v, self.dropout, None, None, is_causal)
 
-            attn = rearrange(attn, 'b l h d -> b l (h d)')
-            attn_weights = lse[:, :, :attn.size(1)]
+            if key_padding_mask is not None and flash_attn_varlen_func is None:
+                q *= self.scaling
+                attn_weights = torch.bmm(q, k.transpose(1, 2))
+
+                if attn_mask is not None:
+                    attn_weights = torch.nan_to_num(attn_weights)
+                    attn_mask = attn_mask.unsqueeze(0)
+                    attn_weights += attn_mask
+
+                if key_padding_mask is not None:
+                    if key_padding_mask.dim() == 4 and key_padding_mask.shape[-1] == 1:
+                        key_padding_mask = key_padding_mask.squeeze(-1)
+                    if key_padding_mask.dim() == 3 and key_padding_mask.shape[-1] == 1:
+                        key_padding_mask = key_padding_mask.squeeze(-1)
+
+                    if key_padding_mask.dim() == 2:
+                        pass
+                    elif key_padding_mask.dim() == 3:
+                        if key_padding_mask.shape[1] == self.num_heads:
+                            key_padding_mask = rearrange(key_padding_mask, 'b h s -> (b h) s')
+                        elif key_padding_mask.shape[2] == self.num_heads:
+                            key_padding_mask = rearrange(key_padding_mask, 'b s h -> (b h) s')
+                        else:
+                            raise RuntimeError(f"Unexpected 3D key_padding_mask shape: {key_padding_mask.shape}")
+                    else:
+                        raise RuntimeError(f"Unexpected key_padding_mask shape: {key_padding_mask.shape}")
+
+                    attn_weights = attn_weights.masked_fill(
+                        key_padding_mask[:, None, :].to(torch.bool),
+                        float("-inf"),
+                    )
+
+                attn_weights = F.softmax(attn_weights, dim=-1, dtype=torch.float32).type_as(attn_weights)
+                attn_probs = self.dropout_module(attn_weights)
+
+                attn = torch.bmm(attn_probs, v)
+                attn = rearrange(attn, '(b h) l d -> b l (h d)', h=self.num_heads)
+            else:
+                assert flash_attn_func is not None
+                q = rearrange(q, '(b h) l d -> b l h d', h=self.num_heads)
+                k = rearrange(k, '(b h) l d -> b l h d', h=self.num_heads)
+                v = rearrange(v, '(b h) l d -> b l h d', h=self.num_heads)
+
+                if key_padding_mask is not None:
+                    key_padding_mask = rearrange(key_padding_mask, '(b h) l d -> b l h d', h=self.num_heads)
+                    key_padding_mask = key_padding_mask[:, :, 0, 0]
+                    assert key_padding_mask[0, 0] == 0
+                    key_padding_mask = 1 - key_padding_mask
+                    attn, lse = flash_attn_varlen_func(q, k, v, self.dropout, None, key_padding_mask, None, is_causal)
+                else:
+                    attn, lse = flash_attn_func(q, k, v, self.dropout, None, None, is_causal)
+
+                attn = rearrange(attn, 'b l h d -> b l (h d)')
+                attn_weights = lse[:, :, :attn.size(1)]
 
         return attn, attn_weights
 
